@@ -1,5 +1,0 @@
-@mixin mq($mqString) {
-    @media #{$mqString} {
-        @content;    
-    }
-}
