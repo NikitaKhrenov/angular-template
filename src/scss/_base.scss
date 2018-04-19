@@ -1,0 +1,36 @@
+/*-- Basics --*/
+
+body {
+    min-width: 320px;
+    margin: 0;
+}
+
+/*-- Cursor --*/
+
+a,
+input[type=button],
+input[type=submit],
+button {
+  cursor: pointer;
+}
+
+/*-- Forms --*/
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+input[type="date"],
+select option,
+textarea {
+  font-size: 16px; /* for iOS to prevent autozoom */
+}
+
+/*-- Helpers --*/
+
+.text-center {
+    text-align: center;
+}
+
+.bg-primary {
+    background-color: rgb(44, 44, 44)
+}
