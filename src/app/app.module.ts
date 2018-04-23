@@ -1,3 +1,4 @@
+import { ApiService } from './core/api.service';
 import { Oauth2Service } from './auth/oauth2.service';
 import { AuthService } from './auth/auth.service';
 import { AppRoutingModule } from './app-routing/app-routing.module';
@@ -29,7 +30,8 @@ import { CallbackComponent } from './pages/callback/callback.component';
   providers: [
     Title,
     AuthService,
-    Oauth2Service
+    Oauth2Service,
+    ApiService
   ],
   bootstrap: [AppComponent]
 })
