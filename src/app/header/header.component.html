@@ -5,9 +5,12 @@
           <a routerLink="/">HOME</a>
         </h1>
         <div class="header-page-authStatus">
-            <a *ngIf="!auth.loggedIn" (click)="auth.login()">Log In</a>
+            <a *ngIf="!auth.loggedIn" 
+            routerLink="/login"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }">Log In</a>
             <span *ngIf="auth.loggedIn">
-              {{auth.userProfile?.name}} <span class="opacity-half">|</span> <a (click)="auth.logout()">Log Out</a>
+              {{auth.userProfile?.email}} <span class="opacity-half">|</span> <a (click)="auth.logout()">Log Out</a>
             </span>
           </div>
       </div>

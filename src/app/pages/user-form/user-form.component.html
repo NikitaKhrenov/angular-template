@@ -1,0 +1,78 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+  <!-- Email -->
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input
+      id="email"
+      type="text"
+      class="form-control"
+      formControlName="email">
+    <div
+      *ngIf="formErrors.email"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.email">
+    </div>
+  </div>
+
+  <!-- Password -->
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input
+      id="password"
+      type="text"
+      class="form-control"
+      formControlName="password"
+      [minlength]="uf.passwordMin">
+    <div
+      *ngIf="formErrors.password"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.password">
+    </div>
+  </div>
+
+  <!-- Accept Agreement -->
+  <div class="form-group" *ngIf="isSignup">
+    <label class="label-inline-group">I Accept The Agreement</label>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input
+          id="agreement-accepted"
+          type="checkbox"
+          class="form-check-input"
+          formControlName="agreementAccepted">
+      </label>
+    </div>
+    <div
+      *ngIf="formErrors.agreementAccepted"
+      class="small text-danger formErrors"
+      [innerHTML]="formErrors.agreementAccepted">
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="form-group">
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [attr.disabled]="userForm.invalid || submitting ? true : null"
+      [innerText]="submitBtnText"></button>
+      <!-- https://github.com/angular/angular/issues/11271#issuecomment-289806196 -->
+    <app-loading *ngIf="submitting"></app-loading>
+    <a
+      *ngIf="!submitting"
+      class="btn btn-link"
+      (click)="resetForm()"
+      tabindex="0">Reset Form</a>
+
+    <!-- API submission error -->
+    <p *ngIf="error" class="mt-3 alert alert-danger">
+      <strong>Error:</strong> {{errorText}}
+    </p>
+  </div>
+  <div class="form-group">
+    <a
+    class="btn btn-link"
+    (click)="switchMode()"
+    tabindex="1">{{switchModeText}}</a>
+  </div>
+</form>

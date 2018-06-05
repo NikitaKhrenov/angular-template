@@ -1,9 +1,11 @@
+import { Observable } from 'rxjs/Observable';
 import { Oauth2Service } from './oauth2.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ENV } from '../core/env.config';
+import { UserModel } from '../core/models/user.model';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +18,6 @@ export class AuthService {
 
   constructor(
     private router: Router,
-    private http: HttpClient,
     private oauth: Oauth2Service) {
     // If authenticated, set local profile property
     // and update login status subject.
@@ -39,16 +40,32 @@ export class AuthService {
     this.loggedIn = value;
   }
 
-  login() {
-    this.oauth.initPasswordFlow('email@email3', 'pass')
+  login(email: string, password: string): any {
+    let error;
+    this.oauth.initPasswordFlow$(email, password)
       .subscribe(
         authResult => {
           this._getProfile(authResult);
         },
         err => {
-          console.error(`Error authenticating: ${err.error}`);
+          error = err;
         }
       );
+    return error;
+  }
+
+  signup(email: string, password: string): any {
+    let error;
+    this.oauth.createUser$(email, password)
+      .subscribe(
+        authResult => {
+          this.login(email, password);
+        },
+        err => {
+          error = err;
+        }
+      );
+    return error;
   }
 
   handleAuth() {
@@ -64,9 +81,9 @@ export class AuthService {
     });*/
   }
 
-  private _getProfile(authResult) {
+  _getProfile(authResult) {
     // Use access token to retrieve user's profile and set session
-    this.oauth.userInfo(authResult.access_token)
+    this.oauth.userInfo$(authResult.access_token)
       .subscribe(
         profile => {
           this._setSession(authResult, profile);
@@ -103,6 +120,7 @@ export class AuthService {
     localStorage.removeItem('profile');
     localStorage.removeItem('expires_at');
     localStorage.removeItem('authRedirect');
+    localStorage.removeItem('isAdmin');
     // Reset local properties, update loggedIn$ stream
     this.userProfile = undefined;
     this.isAdmin = undefined;
