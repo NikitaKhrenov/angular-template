@@ -118,11 +118,25 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.submitUserObj = this._getSubmitObj();
 
     if (!this.isSignup) {
-      const err = this.auth.login(this.submitUserObj.email, this.submitUserObj.password);
-      err ? this._handleSubmitError(err) : this._handleSubmitSuccess();
+      this.auth.login$(this.submitUserObj.email, this.submitUserObj.password)
+        .subscribe(
+          success => {
+            this._handleSubmitSuccess();
+          },
+          err => {
+            this._handleSubmitError(err);
+          }
+        );
     } else {
-      const err = this.auth.signup(this.submitUserObj.email, this.submitUserObj.password);
-      err ? this._handleSubmitError(err) : this._handleSubmitSuccess();
+      this.auth.signup$(this.submitUserObj.email, this.submitUserObj.password)
+        .subscribe(
+          success => {
+            this._handleSubmitSuccess();
+          },
+          err => {
+            this._handleSubmitError(err);
+          }
+        );
     }
   }
 
@@ -134,7 +148,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   private _handleSubmitError(err) {
-    console.error(err);
     if (err.error.error_description === 'Bad credentials') {
       this.errorText = 'Bad Credential';
     } else {

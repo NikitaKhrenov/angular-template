@@ -16,11 +16,10 @@ export class Oauth2Service {
       .append('grant_type', 'password')
       .append('scope', AUTH_CONFIG.SCOPE);
     const headers = new HttpHeaders({
-      'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
-      'Authorization': 'Basic ' + btoa(`${AUTH_CONFIG.CLIENT_ID}:browserSecret`)
+      'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'
     });
     const options = { headers: headers, params: params };
-    return this.http.post('http://localhost:5000/auth/oauth/token', {}, options);
+    return this.http.post('http://localhost:8081/api/auth/oauth/token', {}, options);
   }
 
   userInfo$(accessToken): Observable<any> {
@@ -28,7 +27,7 @@ export class Oauth2Service {
       'Authorization': 'Bearer ' + accessToken
     });
     const options = { headers: headers };
-    return this.http.get('http://localhost:5000/auth/users/current', options);
+    return this.http.get('http://localhost:8081/api/auth/users/current', options);
   }
 
   createUser$(email: string, password: string): Observable<any> {
@@ -37,6 +36,17 @@ export class Oauth2Service {
       'Content-type': 'application/json'
     });
     const options = { headers: headers };
-    return this.http.post('http://localhost:5000/auth/users', user, options);
+    return this.http.post('http://localhost:8081/api/auth/users', user, options);
+  }
+
+  refreshToken$(): Observable<any> {
+    const params = new HttpParams()
+      .append('grant_type', 'refresh_token')
+      .append('scope', AUTH_CONFIG.SCOPE);
+    const headers = new HttpHeaders({
+      'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'
+    });
+    const options = { headers: headers, params: params };
+    return this.http.post('http://localhost:8081/api/auth/oauth/token', {}, options);
   }
 }

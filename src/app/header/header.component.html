@@ -10,7 +10,7 @@
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }">Log In</a>
             <span *ngIf="auth.loggedIn">
-              {{auth.userProfile?.email}} <span class="opacity-half">|</span> <a (click)="auth.logout()">Log Out</a>
+              {{auth.userProfile?.name}} <span class="opacity-half">|</span> <a (click)="auth.logout()">Log Out</a>
             </span>
           </div>
       </div>

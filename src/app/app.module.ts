@@ -17,6 +17,9 @@ import { LoginComponent } from './pages/login/login.component';
 import { UserFormComponent } from './pages/user-form/user-form.component';
 import { LoadingComponent } from './core/loading.component';
 import { UtilsService } from './core/utils.service';
+import { ListComponent } from './widgets/accordion/list/list.component';
+import { ItemComponent } from './widgets/accordion/item/item.component';
+import { AccordionComponent } from './widgets/accordion/accordion.component';
 
 
 @NgModule({
@@ -28,7 +31,10 @@ import { UtilsService } from './core/utils.service';
     CallbackComponent,
     LoginComponent,
     UserFormComponent,
-    LoadingComponent
+    LoadingComponent,
+    ListComponent,
+    ItemComponent,
+    AccordionComponent
   ],
   imports: [
     BrowserModule,
